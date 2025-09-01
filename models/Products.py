@@ -45,7 +45,7 @@ class ProductsModel(BaseModel):
                         "image_processing": "running"
                     }
                 },
-                sort=None,
+                sort=[("bid", 1)],
                 return_document=ReturnDocument.AFTER)
 
 
@@ -59,7 +59,7 @@ class ProductsModel(BaseModel):
                         "image_processing": "running"
                     }
                 },
-                sort=None,
+                sort=[("bid", 1)],
                 return_document=ReturnDocument.AFTER)
 
         if not result:
@@ -72,7 +72,7 @@ class ProductsModel(BaseModel):
                         "image_processing": "running"
                     }
                 },
-                sort=None,
+                sort=[("bid", 1)],
                 return_document=ReturnDocument.AFTER)
 
         # 如果没有数据了，将running的再次设置为waiting。避免遗漏数据

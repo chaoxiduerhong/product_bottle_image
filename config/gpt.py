@@ -58,9 +58,9 @@ class gptConf:
     product_table_result_failed_async = env("PRODUCT_FAILED_ASYNC_RESULT_TABLE", "product_copilot_failed_async")
 
     # 爬取产品结果成功表
-    product_table_result = env("PRODUCT_RESULT_TABLE", "product_google_index_status")
+    product_table_result = env("PRODUCT_RESULT_TABLE", "product_bottle_image")
     # 将所有的数据整合到一起 合并表 TODO invalid
-    product_table_result_full = env("PRODUCT_RESULT_TABLE_FULL", "product_ast_bench_outline_detail_full")
+    product_table_result_full = env("PRODUCT_RESULT_TABLE_FULL", "product_bottle_image_full")
 
     # 避免重复多次爬取同一个链接。这里将已经爬取到的存储到数据库中 TODO invalid
     product_table_result_urls = env("PRODUCT_RESULT_TABLE_URLS", "google_ast_urls")
