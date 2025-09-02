@@ -7,7 +7,7 @@ import sys
 import os
 import traceback
 
-from spider import server, query_start
+from spider import query_start
 
 mark = sys.argv[1]
 if len(sys.argv) > 2:
@@ -32,15 +32,10 @@ if __name__ == "__main__":
         # 这里设置命令的标题
         current_cmd = f"{os.path.abspath(sys.argv[0])} {mark}"
         os.system(f"title {current_cmd}")
-
-        if mark != "server":
-            confirm_exec()
-
+        
         if mark == "query":
             query_start(mode)
 
-        if mark == "server":
-            server()
     except KeyboardInterrupt:
         print("捕获到 Ctrl+C，准备退出...")
     except:

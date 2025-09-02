@@ -24,7 +24,7 @@ def go_running(thread_name):
 # Jun 04 2024 - 启动线程时, thread 不再固定绑定一个 port
 def run(mode):
     # 这里只是通过 browser 数量确定 thread 数量
-    for idx in range(0,1):
+    for idx in range(0,20):
         thread_name = str(idx)
         go_running(thread_name)
 

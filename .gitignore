@@ -44,3 +44,6 @@ template_benchchem_detail_article
 template_evt_detail_article
 template_evt_detail_article.baknov22
 test.py
+storage/bottle
+storage/bottle-bak
+storage/labels

@@ -27,7 +27,7 @@ class Base:
         self.lock = thread_lock
 
         # 测试bid
-        self.test_bid = None
+        self.test_bid = 8350
 
     def waiting(self, ts):
         self.sysLog.log(f"Will SLEEP FOR {ts} seconds")
@@ -252,33 +252,12 @@ class Base:
         """
         创建
         """
-        if "cas_no" not in product:
-            product['cas_no'] = ""
-        if "molecular_formula" not in product:
-            product['molecular_formula'] = ""
-        if "molecular_weight" not in product:
-            product['molecular_weight'] = ""
-        
         output_path = self.get_label_path(product)
         product_name = product['product_name']
         cat_number = f"B{str(product['bid']).zfill(6)}"
         cas_number = f"{product['cas_no']}"
         molecular_formula = f"{product['molecular_formula']}"
         molecular_weight = f"{product['molecular_weight']}"
-        
-        # 丢失的不显示，这里要根据丢失的个数来重新计算高度
-        miss_attr = 0
-        if not product['cas_no']:
-            miss_attr = miss_attr + 1
-            
-        if not product['molecular_formula']:
-            miss_attr = miss_attr + 1
-            
-        if not product['molecular_weight']:
-            miss_attr = miss_attr + 1
-            
-        # product
-        
 
         width, height = 600, 712
         image = Image.new('RGB', (width, height), 'white')
@@ -288,11 +267,17 @@ class Base:
             font_path = "C:/Windows/Fonts/arial.ttf"
             bold_font_path = "C:/Windows/Fonts/arialbd.ttf"
 
-            title_font = ImageFont.truetype(font_path, 46)
-            title_font_bold = ImageFont.truetype(bold_font_path, 46)
-            normal_font = ImageFont.truetype(font_path, 40)
-            bold_font = ImageFont.truetype(bold_font_path, 50)
-            small_font = ImageFont.truetype(font_path, 22)
+            # title_font = ImageFont.truetype(font_path, 46)
+            # title_font_bold = ImageFont.truetype(bold_font_path, 46)
+            # normal_font = ImageFont.truetype(font_path, 40)
+            # bold_font = ImageFont.truetype(bold_font_path, 50)
+            # small_font = ImageFont.truetype(font_path, 22)
+            
+            title_font = ImageFont.truetype(font_path, 41)
+            title_font_bold = ImageFont.truetype(bold_font_path, 41)
+            normal_font = ImageFont.truetype(font_path, 35)
+            bold_font = ImageFont.truetype(bold_font_path, 46)
+            small_font = ImageFont.truetype(font_path, 20)
 
         except:
             title_font = ImageFont.load_default(size=46)
@@ -423,12 +408,6 @@ class Base:
                      attr4_h + attr4_to_line2_h + 
                      line2_h + footer_to_line2_h + footer_h + line_1_ext_h)  # logo + 间距 + 分隔线 + Product + 字段 + 分隔线 + 警告
 
-        # 计算丢失属性的情况 丢失一组属性，高度减去文字高度+到下一个属性的高度
-        if miss_attr and miss_attr > 0:
-            miss_h = (attr_h+normal_font.size) * miss_attr
-            content_h = content_h - miss_h
-            
-            
         # 起始 y 坐标（整体垂直居中）
         start_y = (height - content_h) / 2
         print(start_y)
@@ -460,26 +439,22 @@ class Base:
 
         start_y = start_y + product_name_to_attr1_h
         print(start_y)
-        # CAT
-        draw.text((margin_x, start_y), f"CAT# {cat_number}", fill='black', font=normal_font)
-        
         # CAS
-        if product['cas_no']:
-            start_y = start_y + attr1_h + attr1_to_attr2_h
-            draw.text((margin_x, start_y), f"CAS# {cas_number}", fill='black', font=normal_font)
-            print(start_y)
-            
+        draw.text((margin_x, start_y), f"CAS# {cas_number}", fill='black', font=normal_font)
+        
+        start_y = start_y + attr1_h + attr1_to_attr2_h
+        print(start_y)
+        draw.text((margin_x, start_y), f"CAT# {cat_number}", fill='black', font=normal_font)
+
         # molecular_formula
-        if product['molecular_formula']:
-            start_y = start_y + attr2_h + attr2_to_attr3_h
-            print(start_y)
-            draw.text((margin_x, start_y), f"M. F {molecular_formula}", fill='black', font=normal_font)
+        start_y = start_y + attr2_h + attr2_to_attr3_h
+        print(start_y)
+        draw.text((margin_x, start_y), f"M. F {molecular_formula}", fill='black', font=normal_font)
         
         # molecular_weight
-        if product['molecular_weight']:
-            start_y = start_y + attr3_h + attr3_to_attr4_h
-            print(start_y)
-            draw.text((margin_x, start_y), f"M. Wt {molecular_weight}", fill='black', font=normal_font)
+        start_y = start_y + attr3_h + attr3_to_attr4_h
+        print(start_y)
+        draw.text((margin_x, start_y), f"M. Wt {molecular_weight}", fill='black', font=normal_font)
 
         # 第二条分隔线
         start_y = start_y + attr4_h + attr4_to_line2_h
@@ -624,9 +599,12 @@ class Base:
         # 透明瓶子
         # final_label_size = (330, 392)
 
-        # 棕色瓶子
-        final_label_size = (580, 688)
+        # 棕色瓶子 - 原
+        # final_label_size = (580, 688)
 
+        # 棕色瓶子 - 压缩
+        final_label_size = (222, 263)
+        
         # 2. 标签在瓶身上的位置 (左上角坐标 x, y)
         # x: 离瓶子左边的距离
         # y: 离瓶子顶部的距离
@@ -635,7 +613,7 @@ class Base:
         # position_on_bottle = (27, 336)
 
         # 棕色瓶子
-        position_on_bottle = (30, 570)
+        position_on_bottle = (5, 180)
 
         # 3. 标签的弯曲程度
         # 1.0 是一个比较自然的效果。可以增大或减小来改变弯曲度。
@@ -659,32 +637,8 @@ class Base:
             print("正在将标签叠加到瓶子上...")
             result_img = self.overlay_image(bottle_img.copy(), warped_label, position_on_bottle)
 
-            # small_np = cv2.resize(result_img, (220, 495), interpolation=cv2.INTER_LANCZOS4)
-            
-            # # 高斯模糊
-            # blur = cv2.GaussianBlur(small_np, (3, 3), 0)
-
-            # # 锐化滤波
-            # kernel = np.array([[0, -1, 0],
-            #                 [-1, 5,-1],
-            #                 [0, -1, 0]])
-            # sharpened = cv2.filter2D(blur, -1, kernel)
-
             # 4. 保存结果
             cv2.imwrite(output_path, result_img)
-            
-            # 处理缩放
-            img = Image.open(output_path)
-            # 目标宽度
-            new_w = 200
-            w, h = img.size
-            new_h = int(h * new_w / w)
-
-            print("正在进行对图片进行缩放")
-            # 高质量缩放
-            resized = img.resize((new_w, new_h), Image.LANCZOS)
-            resized.save(output_path)
-            
             print(f"处理完成！结果已保存到: {output_path}")
         return output_path
 
@@ -792,6 +746,7 @@ class Base:
                 
                 self.sysLog.log("save success ,next product...")
 
+                break
                 
             except:
                 print(traceback.format_exc())
